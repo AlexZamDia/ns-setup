@@ -3,6 +3,7 @@ version: '3'
 services:
   mongo:
     image: mongo:4.4
+    container_name: mongo
     restart: always
     volumes:
       - ${NS_MONGO_DATA_DIR:-./mongo-data}:/data/db:cached
@@ -45,15 +46,29 @@ services:
       ### Features
       # ENABLE - Used to enable optional features, expects a space delimited list, such as: careportal rawbg iob
       # See https://github.com/nightscout/cgm-remote-monitor#plugins for details
-      ENABLE: basal iob cob boluscalc cage sage iage bage pump openaps pushover bgi food rawbg
+      ENABLE: careportal boluscalc food bwp cage sage iage iob cob basal ar2 rawbg pushover bgi pump openaps
       SHOW_FORECAST: openaps
-      PUMP_FIELDS: clock reservoir
+      PUMP_FIELDS: clock battery reservoir
       DISPLAY_UNITS: mmol
+      CUSTOM_TITLE: AlexCGM
+      DEVICESTATUS_ADVANCED: true
+      BG_HIGH: 10
+      BG_LOW: 3.5
+      BG_TARGET_BOTTOM: 4
+      BG_TARGET_TOP: 7
+      PUMP_URGENT_BATT_P: 26
+      PUMP_WARN_BATT_P: 51
+      SAGE_URGENT: 320
+      SHOW_PLUGINS: openaps pump cob iob sage cage careportal
+      SHOW_RAWBG: never
+      THEME: colors
+      TIME_FORMAT: 24
 
       # AUTH_DEFAULT_ROLES (readable) - possible values readable, denied, or any valid role name.
       # When readable, anyone can view Nightscout without a token. Setting it to denied will require
       # a token from every visit, using status-only will enable api-secret based login.
-      AUTH_DEFAULT_ROLES: denied
+      #AUTH_DEFAULT_ROLES: denied
+      AUTH_DEFAULT_ROLES: readable
 
       # For all other settings, please refer to the Environment section of the README
       # https://github.com/nightscout/cgm-remote-monitor#environment
