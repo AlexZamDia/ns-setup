@@ -7,6 +7,7 @@ services:
     restart: always
     volumes:
       - ${NS_MONGO_DATA_DIR:-./mongo-data}:/data/db:cached
+      - './mongo-backup:/data/backup'
 
   nightscout:
     image: nightscout/cgm-remote-monitor:latest_dev
